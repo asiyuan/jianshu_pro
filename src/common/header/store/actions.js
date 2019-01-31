@@ -39,3 +39,5 @@ export const changePageAction = (page) => (
     page: page
   }
 )
+
+export const mouseLeave = () => ({type: 'mouse_leave'})

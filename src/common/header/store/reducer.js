@@ -18,6 +18,8 @@ export default (state=defaultState, action) => {
       return state.set('list', action.data).set('totalPage', action.totalPage)
     case 'mouse_in':
       return state.set('mouseIn', true)
+    case 'mouse_leave':
+      return state.set('mouseIn', false)
     case 'change_page':
       return state.set('page', action.page)
     default:

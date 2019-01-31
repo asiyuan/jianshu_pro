@@ -10,14 +10,14 @@ import {
   NavItem,
   Search,
 } from './style'
-import {getBlurAction, getFocusAction, getList, mouseEnter, changePageAction} from './store/actions'
+import {getBlurAction, getFocusAction, getList, mouseEnter, changePageAction, mouseLeave} from './store/actions'
 
 
 class Header extends Component {
 
   // 获取搜索详情的 组件
   getSearchInfo = () => {
-    const {page, list, focused, handleMouseEnter, mouseIn, totalPage, changePage} = this.props
+    const {page, list, focused, handleMouseEnter, mouseIn, totalPage, changePage, handleMouseLeave} = this.props
     const newList = list.toJS()
     // console.log(newList)
     const pageList = []
@@ -28,7 +28,7 @@ class Header extends Component {
     }
     if (focused || mouseIn) {
       return (
-        <div className="searchInfo" onMouseEnter={handleMouseEnter}>
+        <div className="searchInfo" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           <div className="title">热门搜索
             <div className="switch" onClick={() => changePage(page, totalPage)}>
               <Icon type="reload" style={{color: "#787878"}}/> &nbsp;换一批
@@ -101,15 +101,16 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(mouseEnter())
     },
     changePage: (page, totalPage) => {
-      console.log(page, totalPage)
       if (page < totalPage) {
         page += 1
       } else {
         page = 1
       }
       dispatch(changePageAction(page))
+    },
+    handleMouseLeave: () => {
+      dispatch(mouseLeave())
     }
-
   }
 }
 
