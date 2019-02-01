@@ -1,11 +1,18 @@
 import React, {Component} from 'react';
+import axios from 'axios'
+import {connect} from 'react-redux'
+import {fromJS} from 'immutable'
 
 import Topic from './component/topic'
 import List from './component/list/list'
 import Recommond from './component/recommond'
 import './index.less'
 
-export default class Home extends Component {
+class Home extends Component {
+
+  componentDidMount() {
+    this.props.getArticleList()
+  }
 
   render() {
     return (
@@ -23,3 +30,30 @@ export default class Home extends Component {
     )
   }
 }
+
+const mapState = (state) => {
+  return {
+
+  }
+}
+
+const mapDispatch = (dispatch) => {
+  return {
+    getArticleList: () => {
+      axios.get('/api/homeList.json').then(res => {
+     
+        const result = res.data.articleList
+        const action = {
+          type: 'get_article_data',
+          data: fromJS(result)
+        }
+        dispatch(action)
+        
+      }).catch(err => {
+        console.log('请求出错了')
+      })
+    }
+  }
+}
+
+export default connect(mapState, mapDispatch)(Home)
